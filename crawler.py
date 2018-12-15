@@ -59,7 +59,7 @@ def walk(adress, wiki_lang, deepth, proxy=False):
                             (tag.get('href').find('//') == -1):
                         if tag.get('href') not in pages:
                             pages.add(tag.get('href'))
-                            print('https://' + wiki_lang + '.wikipedia.org' + tag.get('href'))
+                            #print('https://' + wiki_lang + '.wikipedia.org' + tag.get('href'))
                             yield 'https://' + wiki_lang + '.wikipedia.org' + tag.get('href')
                             #walk(base + tag.get('href'), deepth + 1)
             #print('end')
@@ -84,7 +84,7 @@ def bfs(adress, wiki_lang, proxy, max_deepth=None):
         deepth += 1
         level = new_level.copy()
         new_level = []
-        print('---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------')
+        print('----------------------------------------')
         print(dict)
 
 def is_not_accessed(adress):
@@ -99,7 +99,6 @@ def is_not_accessed(adress):
 def run():
     wiki_lang = 'rmy'
     adress = 'https://rmy.wikipedia.org/wiki/Sherutni_patrin'
-    base = 'https://rmy.wikipedia.org'
     max_deepth=0
 
     if sys.argv:
@@ -109,51 +108,8 @@ def run():
             if len(sys.argv) > 3:
                 max_deepth = int(sys.argv[3])
 
-    base = 'https://' + wiki_lang + '.wikipedia.org'
 
     bfs(adress, wiki_lang, is_not_accessed(adress), max_deepth=max_deepth)
 
-
-
 run()
-"""
-#walk('https://rmy.wikipedia.org/wiki/Kale', 0)
-bloced_adress = 'https://rutracker.org/forum/index.php'
-wiki_lang = 'rmy'
-adress = 'https://rmy.wikipedia.org/wiki/Sherutni_patrin'
-for param in sys.argv:
-    print(param)
-bfs(adress, wiki_lang, is_not_accessed(adress), max_deepth=1)
-print(dict)
-"""
 
-# rsp = requests.get('https://rmy.wikipedia.org/wiki/Sherutni_patrin')
-# print(rsp.status_code)
-# rsp = requests.get('https://rmy.wikipedia.org/wiki/Kale')
-# print(rsp.status_code)
-# soup = BeautifulSoup(rsp.text, "lxml")
-# print(soup.body.prettify())
-# tags = soup.body.find_all('a')
-# for tag in tags:
-#    print(tag.get('href'))
-# req = requests.get(base + '/wiki/Franchiya')
-# print(req.status_code)
-
-"""
-rsp = requests.get('https://rmy.wikipedia.org/wiki/Sherutni_patrin')
-print(rsp.status_code)
-
-soup = BeautifulSoup(rsp.text, "lxml")
-#print(soup.prettify())
-tags = soup.find_all('a')
-#for tag in tags:
-#    print(tag.get('href'))
-
-adress_name = soup.findAll('a', attrs={"dir": "ltr"})[0].text
-if adress_name.find('rmy.wikipedia.org') > -1:
-    begin = adress_name.find('title=')
-    name = adress_name[begin + 6:adress.find('&')]
-    print(name)
-print(soup.findAll('a', attrs={"dir": "ltr"})[0].text)
-
-"""
