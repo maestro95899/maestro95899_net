@@ -10,8 +10,7 @@ dict = {}
 pages = set()
 
 proxies = {
-    'http': 'http://5.61.199.55:54767',
-    'https': 'https://1.2.169.9:55009',
+    'http': 'http://5.135.164.72:3128',
 }
 
 
@@ -21,6 +20,7 @@ def walk(adress, wiki_lang, deepth, proxy=False):
     print(adress)
     try:
         if proxy:
+            print('try req with proxi')
             req = requests.get(adress, proxies=proxies)
         else:
             req = requests.get(adress)
@@ -65,6 +65,8 @@ def walk(adress, wiki_lang, deepth, proxy=False):
             #print('end')
         else:
             return False
+    except requests.exceptions.SSLError:
+        print('SSLError')
     except BaseException:
         print('fail')
     return False
@@ -91,6 +93,7 @@ def is_not_accessed(adress):
     flag = False
     try:
         rsp = requests.get(adress)
+        #flag = True
     except BaseException:
         print('Use proxy')
         flag = True
@@ -99,17 +102,21 @@ def is_not_accessed(adress):
 def run():
     wiki_lang = 'rmy'
     adress = 'https://rmy.wikipedia.org/wiki/Sherutni_patrin'
-    max_deepth=0
+    max_deepth=1
 
-    if sys.argv:
+    if len(sys.argv) > 1:
         adress = sys.argv[1]
         if len(sys.argv) > 2:
             wiki_lang = sys.argv[2]
             if len(sys.argv) > 3:
                 max_deepth = int(sys.argv[3])
-
+                if len(sys.argv) > 4:
+                    adr = 'http://' + sys.argv[4]
+                    global proxies
+                    proxies = {
+                        'http': adr,
+                    }
 
     bfs(adress, wiki_lang, is_not_accessed(adress), max_deepth=max_deepth)
 
 run()
-
