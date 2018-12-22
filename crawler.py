@@ -10,7 +10,8 @@ dict = {}
 pages = set()
 
 proxies = {
-    'http': 'http://5.135.164.72:3128',
+    'http': 'http://1.60.109.50:80',
+    'https': 'http://1.186.239.230:8080'
 }
 
 
@@ -20,8 +21,9 @@ def walk(adress, wiki_lang, deepth, proxy=False):
     print(adress)
     try:
         if proxy:
-            print('try req with proxi')
+            #print('try req with proxi')
             req = requests.get(adress, proxies=proxies)
+            #print(req.status_code)
         else:
             req = requests.get(adress)
         if req.status_code == 200:
@@ -112,9 +114,11 @@ def run():
                 max_deepth = int(sys.argv[3])
                 if len(sys.argv) > 4:
                     adr = 'http://' + sys.argv[4]
+                    adr_ = 'https://' + sys.argv[5]
                     global proxies
                     proxies = {
                         'http': adr,
+                        'https' : adr_
                     }
 
     bfs(adress, wiki_lang, is_not_accessed(adress), max_deepth=max_deepth)
